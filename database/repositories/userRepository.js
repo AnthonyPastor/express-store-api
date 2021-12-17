@@ -4,9 +4,12 @@ const bcryptjs = require("bcryptjs");
 class userRepository {
   async GetUsers(limit, page) {
     try {
-      const users = await User.find();
+      const users = await User.find()
+        .skip(Number(limit) * (Number(page) - 1))
+        .limit(Number(limit));
 
-      return users;
+      const total = await User.countDocuments();
+      return { total, users };
     } catch (error) {
       return error;
     }
