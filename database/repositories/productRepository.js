@@ -1,11 +1,14 @@
 const Product = require("../../models/product");
 
 class productRepository {
-  async GetProducts() {
+  async GetProducts(limit, page) {
     try {
-      const products = await Product.find();
+      const products = await Product.find()
+        .skip(Number(limit) * (Number(page) - 1))
+        .limit(Number(limit));
 
-      return products;
+      const total = await Product.countDocuments();
+      return { total, products };
     } catch (error) {
       return {};
     }
