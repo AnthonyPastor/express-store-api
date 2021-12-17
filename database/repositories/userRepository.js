@@ -4,7 +4,7 @@ const bcryptjs = require("bcryptjs");
 class userRepository {
   async GetUsers(limit, page) {
     try {
-      const users = await User.find()
+      const users = await User.find({ deleted: false })
         .skip(Number(limit) * (Number(page) - 1))
         .limit(Number(limit));
 

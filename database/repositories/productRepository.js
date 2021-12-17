@@ -3,7 +3,7 @@ const Product = require("../../models/product");
 class productRepository {
   async GetProducts(limit, page) {
     try {
-      const products = await Product.find()
+      const products = await Product.find({ deleted: false })
         .skip(Number(limit) * (Number(page) - 1))
         .limit(Number(limit));
 
