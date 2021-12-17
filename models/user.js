@@ -16,6 +16,10 @@ const userSchema = Schema({
   age: {
     type: Number,
   },
+  deleted: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 userSchema.methods.toJSON = function () {

@@ -2,7 +2,9 @@ const { response, request } = require("express");
 const productRepository = require("../database/repositories/productRepository");
 
 const productsGet = async (req = request, res = response) => {
-  const response = await new productRepository().GetProducts();
+  const { limit = 5, page = 1 } = req.query;
+
+  const response = await new productRepository().GetProducts(limit, page);
 
   res.json({
     response,

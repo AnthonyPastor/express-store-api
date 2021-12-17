@@ -2,10 +2,10 @@ const { response, request } = require("express");
 const userRepository = require("../database/repositories/userRepository");
 
 const usersGet = async (req = request, res = response) => {
-  const { name } = req.query;
+  const { limit = 5, page = 1 } = req.query;
 
   //TODO: Add filter to getUsers
-  const response = await new userRepository().GetUsers();
+  const response = await new userRepository().GetUsers(limit, page);
 
   res.json({
     response,
