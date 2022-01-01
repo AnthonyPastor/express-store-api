@@ -7,18 +7,19 @@ class Server {
     this.app = express();
     this.port = process.env.PORT;
 
-    //API paths
+    // API paths
     this.usersPath = "/api/user";
     this.productsPath = "/api/product";
     this.ordersPath = "/api/order";
+    this.authPath = "/api/auth";
 
-    //BD Connection
+    // BD Connection
     this.conectDb();
 
     // Middlewares
     this.middlewares();
 
-    //Rutas de mi aplicación
+    // Routes of application
     this.routes();
   }
 
@@ -30,14 +31,15 @@ class Server {
     // CORS
     this.app.use(cors());
 
-    //Lectura y parseo
+    // Read and parse
     this.app.use(express.json());
 
-    // Directorio publico
+    // Public Directory
     this.app.use(express.static("public"));
   }
 
   routes() {
+    this.app.use(this.authPath, require("../routes/authRoutes"));
     this.app.use(this.usersPath, require("../routes/userRoutes"));
     this.app.use(this.productsPath, require("../routes/productRoutes"));
     this.app.use(this.ordersPath, require("../routes/orderRoutes"));
