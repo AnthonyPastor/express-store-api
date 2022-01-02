@@ -1,12 +1,13 @@
 const { Router } = require("express");
 const { check } = require("express-validator");
-const { validateFields } = require("../middlewares/validateFields");
-const { mailExist } = require("../helpers/db-validators");
+const { mailExist, existUserId } = require("../helpers/db-validators");
 const {
   usersGet,
   userPost,
   userGetById,
+  userDelete,
 } = require("../controllers/userController");
+const { validateFields, validateJWT } = require("../middlewares");
 
 const userRouter = Router();
 
@@ -27,6 +28,25 @@ userRouter.post(
   userPost
 );
 
-userRouter.get("/:id", userGetById);
+userRouter.get(
+  "/:id",
+  [
+    check("id", "ID is invalid").isMongoId(),
+    check("id").custom(existUserId),
+    validateFields,
+  ],
+  userGetById
+);
+
+userRouter.delete(
+  "/:id",
+  [
+    validateJWT,
+    check("id", "ID is invalid").isMongoId(),
+    check("id").custom(existUserId),
+    validateFields,
+  ],
+  userDelete
+);
 
 module.exports = userRouter;
