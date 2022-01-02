@@ -54,7 +54,7 @@ const googleSignIn = async (req, res = response) => {
 
     let user = await User.findOne({ email });
     if (!user) {
-      //If doesn't exist, create it
+      //If user doesn't exist, create it
       const data = {
         name,
         email,

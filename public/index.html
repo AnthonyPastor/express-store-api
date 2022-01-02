@@ -28,9 +28,8 @@
     <script src="https://accounts.google.com/gsi/client" async defer/></script>
     <script>
       function handleCredentialResponse(response) {
-        //Google token : ID_TOKEN
 
-        console.log("id_token", response.credential);
+        // console.log("id_token", response.credential);
 
         const body = { id_token: response.credential };
 
@@ -43,7 +42,7 @@
         })
           .then((response) => response.json())
           .then((resp) => {
-            console.log(resp);
+            // console.log(resp);
             localStorage.setItem('email', resp.user.email)
           })
           .catch(console.warn);
