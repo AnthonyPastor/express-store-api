@@ -11,11 +11,12 @@ const { validateFields, validateJWT } = require("../middlewares");
 
 const userRouter = Router();
 
-userRouter.get("/", usersGet);
+userRouter.get("/", usersGet); //TODO Getting endpoints must validate role of client
 
 userRouter.post(
   "/",
   [
+    validateJWT,
     check("email", "Email is invalid").not().isEmail(),
     check("password", "Password is required").not().isEmpty(),
     check("password", "Password must have more of 6 characters").isLength({
@@ -36,7 +37,7 @@ userRouter.get(
     validateFields,
   ],
   userGetById
-);
+); //TODO Getting endpoints must validate role of client
 
 userRouter.delete(
   "/:id",
