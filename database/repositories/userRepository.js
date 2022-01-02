@@ -1,6 +1,10 @@
 const User = require("../../models/user");
 const bcryptjs = require("bcryptjs");
 
+//The goal of this class is to interact with the DB. It should inherit from an Interface, so when you want to get access yo the database,
+//you must use the interface methods instead of this class
+
+//Using generics, we could generalize the access of all repositories
 class userRepository {
   async GetUsers(limit, page) {
     try {
