@@ -15,10 +15,19 @@ const userSchema = Schema({
   },
   age: {
     type: Number,
+    default: 0,
   },
   deleted: {
     type: Boolean,
     default: false,
+  },
+  google: {
+    type: Boolean,
+    default: false,
+  },
+  img: {
+    type: String,
+    default: "",
   },
 });
 
