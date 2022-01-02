@@ -1,4 +1,5 @@
 const Product = require("../models/product");
+const Role = require("../models/role");
 const User = require("../models/user");
 
 const mailExist = async (email = "") => {
@@ -21,8 +22,17 @@ const existProductId = async (id = "") => {
     throw new Error("A Product with that ID doesn't exist");
   }
 };
+
+const isValidRole = async (role = "") => {
+  const existRole = await Role.findOne({ role });
+  if (!existRole && role !== "") {
+    throw new Error(`Role ${role} is not registed in DB`);
+  }
+};
+
 module.exports = {
   mailExist,
   existUserId,
   existProductId,
+  isValidRole,
 };
