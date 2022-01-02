@@ -29,6 +29,11 @@ const userSchema = Schema({
     type: String,
     default: "",
   },
+  role: {
+    type: String,
+    default: "USER_ROLE",
+    enum: ["ADMIN_ROLE", "USER_ROLE"],
+  },
 });
 
 userSchema.methods.toJSON = function () {
