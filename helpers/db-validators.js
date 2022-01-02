@@ -7,6 +7,14 @@ const mailExist = async (email = "") => {
   }
 };
 
+const existUserId = async (id = "") => {
+  const existUserId = await User.findOne({ id });
+  if (!existUserId) {
+    throw new Error("A User with that ID doesn't exist");
+  }
+};
+
 module.exports = {
   mailExist,
+  existUserId,
 };
