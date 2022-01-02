@@ -16,8 +16,7 @@ userRouter.get("/", usersGet); //TODO Getting endpoints must validate role of cl
 userRouter.post(
   "/",
   [
-    validateJWT,
-    check("email", "Email is invalid").not().isEmail(),
+    check("email", "Email is invalid").isEmail(),
     check("password", "Password is required").not().isEmpty(),
     check("password", "Password must have more of 6 characters").isLength({
       min: 6,
