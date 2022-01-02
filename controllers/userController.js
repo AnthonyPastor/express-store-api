@@ -29,8 +29,18 @@ const userGetById = async (req = request, res = response) => {
   });
 };
 
+const userDelete = async (req = request, res = response) => {
+  const { id } = req.params;
+  const { uid, user } = req;
+  const response = await new userRepository().DeleteUser(id);
+  res.json({
+    response,
+    auhtenticatedUser: { user },
+  });
+};
 module.exports = {
   usersGet,
   userPost,
   userGetById,
+  userDelete,
 };
