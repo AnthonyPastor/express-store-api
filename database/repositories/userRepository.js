@@ -9,9 +9,12 @@ class userRepository {
         .limit(Number(limit));
 
       const total = await User.countDocuments();
-      return { total, users };
+      return { success: true, response: { total, users } };
     } catch (error) {
-      return error;
+      return {
+        success: false,
+        response: error.toString(),
+      };
     }
   }
 
@@ -19,9 +22,15 @@ class userRepository {
     try {
       const user = await User.findById(id);
 
-      return user;
+      return {
+        success: true,
+        response: user,
+      };
     } catch (error) {
-      return error;
+      return {
+        success: false,
+        response: error.toString(),
+      };
     }
   }
 
@@ -44,7 +53,24 @@ class userRepository {
     } catch (error) {
       return {
         success: false,
-        response: error,
+        response: error.toString(),
+      };
+    }
+  }
+
+  async DeleteUser(id) {
+    try {
+      const user = await User.findByIdAndUpdate(id, { deleted: true });
+      await user.save();
+
+      return {
+        success: true,
+        response: "Success",
+      };
+    } catch (error) {
+      return {
+        success: false,
+        response: error.toString(),
       };
     }
   }
