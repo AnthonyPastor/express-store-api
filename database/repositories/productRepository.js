@@ -1,5 +1,10 @@
 const Product = require("../../models/product");
 
+//The goal of this class is to interact with the DB. It should inherit from an Interface, so when you want to get access yo the database,
+//you must use the interface methods instead of this class
+
+//Using generics, we could generalize the access of all repositories
+
 class productRepository {
   async GetProducts(limit, page) {
     try {
@@ -8,9 +13,12 @@ class productRepository {
         .limit(Number(limit));
 
       const total = await Product.countDocuments();
-      return { total, products };
+      return { success: true, response: { total, products } };
     } catch (error) {
-      return {};
+      return {
+        success: false,
+        response: error.toString(),
+      };
     }
   }
 
@@ -18,9 +26,15 @@ class productRepository {
     try {
       const product = await Product.findById(id);
 
-      return product;
+      return {
+        success: true,
+        response: product,
+      };
     } catch (error) {
-      return {};
+      return {
+        success: false,
+        response: error.toString(),
+      };
     }
   }
 
@@ -30,11 +44,32 @@ class productRepository {
 
       await product.save();
 
-      console.log(product);
-
-      return product;
+      return {
+        success: true,
+        response: product,
+      };
     } catch (error) {
-      return {};
+      return {
+        success: false,
+        response: error.toString(),
+      };
+    }
+  }
+
+  async DeleteProduct(id) {
+    try {
+      const product = await Product.findByIdAndUpdate(id, { deleted: true });
+      await product.save();
+
+      return {
+        success: true,
+        response: "Delete successful",
+      };
+    } catch (error) {
+      return {
+        success: false,
+        response: error.toString(),
+      };
     }
   }
 }

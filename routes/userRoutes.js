@@ -1,20 +1,22 @@
 const { Router } = require("express");
 const { check } = require("express-validator");
-const { validateFields } = require("../middlewares/validateFields");
-const { mailExist } = require("../helpers/db-validators");
+const { mailExist, existUserId } = require("../helpers/db-validators");
 const {
   usersGet,
   userPost,
   userGetById,
+  userDelete,
 } = require("../controllers/userController");
+const { validateFields, validateJWT } = require("../middlewares");
 
 const userRouter = Router();
 
-userRouter.get("/", usersGet);
+userRouter.get("/", usersGet); //TODO Getting endpoints must validate role of client
 
 userRouter.post(
   "/",
   [
+    validateJWT,
     check("email", "Email is invalid").not().isEmail(),
     check("password", "Password is required").not().isEmpty(),
     check("password", "Password must have more of 6 characters").isLength({
@@ -27,6 +29,25 @@ userRouter.post(
   userPost
 );
 
-userRouter.get("/:id", userGetById);
+userRouter.get(
+  "/:id",
+  [
+    check("id", "ID is invalid").isMongoId(),
+    check("id").custom(existUserId),
+    validateFields,
+  ],
+  userGetById
+); //TODO Getting endpoints must validate role of client
+
+userRouter.delete(
+  "/:id",
+  [
+    validateJWT,
+    check("id", "ID is invalid").isMongoId(),
+    check("id").custom(existUserId),
+    validateFields,
+  ],
+  userDelete
+);
 
 module.exports = userRouter;

@@ -1,6 +1,10 @@
 const User = require("../../models/user");
 const bcryptjs = require("bcryptjs");
 
+//The goal of this class is to interact with the DB. It should inherit from an Interface, so when you want to get access yo the database,
+//you must use the interface methods instead of this class
+
+//Using generics, we could generalize the access of all repositories
 class userRepository {
   async GetUsers(limit, page) {
     try {
@@ -9,9 +13,12 @@ class userRepository {
         .limit(Number(limit));
 
       const total = await User.countDocuments();
-      return { total, users };
+      return { success: true, response: { total, users } };
     } catch (error) {
-      return error;
+      return {
+        success: false,
+        response: error.toString(),
+      };
     }
   }
 
@@ -19,9 +26,15 @@ class userRepository {
     try {
       const user = await User.findById(id);
 
-      return user;
+      return {
+        success: true,
+        response: user,
+      };
     } catch (error) {
-      return error;
+      return {
+        success: false,
+        response: error.toString(),
+      };
     }
   }
 
@@ -44,7 +57,24 @@ class userRepository {
     } catch (error) {
       return {
         success: false,
-        response: error,
+        response: error.toString(),
+      };
+    }
+  }
+
+  async DeleteUser(id) {
+    try {
+      const user = await User.findByIdAndUpdate(id, { deleted: true });
+      await user.save();
+
+      return {
+        success: true,
+        response: "Success",
+      };
+    } catch (error) {
+      return {
+        success: false,
+        response: error.toString(),
       };
     }
   }
