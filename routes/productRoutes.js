@@ -6,7 +6,7 @@ const {
   productPost,
   productDelete,
 } = require("../controllers/productController");
-const { existProductId } = require("../helpers/db-validators");
+const { existProductId, existCategoryId } = require("../helpers/db-validators");
 const { validateJWT, validateFields } = require("../middlewares");
 
 const productRouter = Router();
@@ -27,11 +27,13 @@ productRouter.post(
   "/",
   [
     validateJWT,
-    check("category", "Category is required").not().isEmpty(),
-    check("description", "Descripcion is required").not().isEmpty(),
+    check("name", "Name is required").not().isEmpty(),
     check("price", "Price is required").not().isEmpty(),
     check("price", "Price must be numeric").isNumeric(),
-    check("name", "Name is required").not().isEmpty(),
+    check("description", "Descripcion is required").not().isEmpty(),
+    check("category", "Category is required").not().isEmpty(),
+    check("category", "Category is invalid").isMongoId(),
+    check("category").custom(existCategoryId),
     validateFields, //Custom Middleware
   ],
   productPost
