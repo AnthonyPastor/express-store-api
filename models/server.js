@@ -12,6 +12,7 @@ class Server {
     this.productsPath = "/api/product";
     this.ordersPath = "/api/order";
     this.authPath = "/api/auth";
+    this.categoriesPath = "/api/category";
 
     // BD Connection
     this.conectDb();
@@ -43,6 +44,7 @@ class Server {
     this.app.use(this.usersPath, require("../routes/userRoutes"));
     this.app.use(this.productsPath, require("../routes/productRoutes"));
     this.app.use(this.ordersPath, require("../routes/orderRoutes"));
+    this.app.use(this.categoriesPath, require("../routes/categoryRoutes"));
   }
   start() {
     this.app.listen(this.port, () => {
