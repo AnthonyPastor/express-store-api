@@ -9,10 +9,15 @@ const categorySchema = Schema({
     type: Boolean,
     default: false,
   },
+  user: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
 });
 
 categorySchema.methods.toJSON = function () {
-  const { __v, _id, ...category } = this.toObject();
+  const { __v, _id, deleted, ...category } = this.toObject();
   return {
     id: _id,
     ...category,
