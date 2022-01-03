@@ -1,3 +1,4 @@
+const Category = require("../models/category");
 const Product = require("../models/product");
 const Role = require("../models/role");
 const User = require("../models/user");
@@ -23,6 +24,20 @@ const existProductId = async (id = "") => {
   }
 };
 
+const existCategoryId = async (id = "") => {
+  const existCategoryId = await Category.findOne({ id });
+  if (!existCategoryId) {
+    throw new Error("A Category with that ID doesn't exist");
+  }
+};
+
+const categoryAlreadyExist = async (name = "") => {
+  const existCategory = await Category.findOne({ name });
+  if (existCategory) {
+    throw new Error("A Category with that name already exist");
+  }
+};
+
 const isValidRole = async (role = "") => {
   const existRole = await Role.findOne({ role });
   if (!existRole && role !== "") {
@@ -35,4 +50,6 @@ module.exports = {
   existUserId,
   existProductId,
   isValidRole,
+  existCategoryId,
+  categoryAlreadyExist,
 };
