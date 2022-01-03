@@ -12,7 +12,7 @@ class userRepository {
         .skip(Number(limit) * (Number(page) - 1))
         .limit(Number(limit));
 
-      const total = await User.countDocuments();
+      const total = await User.countDocuments({ deleted: false });
       return { success: true, response: { total, users } };
     } catch (error) {
       return {

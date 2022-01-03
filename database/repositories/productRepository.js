@@ -12,7 +12,7 @@ class productRepository {
         .skip(Number(limit) * (Number(page) - 1))
         .limit(Number(limit));
 
-      const total = await Product.countDocuments();
+      const total = await Product.countDocuments({ deleted: false });
       return { success: true, response: { total, products } };
     } catch (error) {
       return {
