@@ -84,7 +84,7 @@ const productPost = async (req = request, res = response) => {
     } else {
       res.json({
         success: success,
-        msg: "Get Products success!",
+        msg: "Post Products success!",
         details: "",
         product: response,
       });
