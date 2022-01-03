@@ -1,7 +1,4 @@
-const Category = require("../models/category");
-const Product = require("../models/product");
-const Role = require("../models/role");
-const User = require("../models/user");
+const { Category, Product, Role, User } = require("../models");
 
 const mailExist = async (email = "") => {
   const existEmail = await User.findOne({ email });
