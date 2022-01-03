@@ -15,14 +15,14 @@ const categoriesGet = async (req = request, res = response) => {
         success: success,
         msg: "Unexpected error getting Cetegories",
         details: response,
-        products: {},
+        categories: {},
       });
     } else {
       res.json({
         success: success,
         msg: "Get Cetegories success!",
         details: "",
-        products: response,
+        categories: response,
       });
     }
   } catch (error) {
@@ -30,7 +30,7 @@ const categoriesGet = async (req = request, res = response) => {
       success: false,
       msg: "Unexpected error getting Cetegories",
       details: error.toString(),
-      products: {},
+      categories: {},
     });
   }
 };
@@ -45,14 +45,14 @@ const categoryGetById = async (req = request, res = response) => {
         success: success,
         msg: "Unexpected error getting Category",
         details: response,
-        product: {},
+        category: {},
       });
     } else {
       res.json({
         success: success,
         msg: "Get Category success!",
         details: "",
-        product: response,
+        category: response,
       });
     }
   } catch (error) {
@@ -60,7 +60,7 @@ const categoryGetById = async (req = request, res = response) => {
       success: false,
       msg: "Unexpected error getting Category",
       details: error.toString(),
-      product: {},
+      category: {},
     });
   }
 };
@@ -68,6 +68,7 @@ const categoryGetById = async (req = request, res = response) => {
 const categoryPost = async (req = request, res = response) => {
   try {
     const body = req.body;
+    body.user = req.user._id;
     const { success, response } = await new categoryRepository().PostCategory(
       body
     );
@@ -77,14 +78,14 @@ const categoryPost = async (req = request, res = response) => {
         success: success,
         msg: "Unexpected error postting Category",
         details: response,
-        product: {},
+        category: {},
       });
     } else {
       res.json({
         success: success,
         msg: "Post Category success!",
         details: "",
-        product: response,
+        category: response,
       });
     }
   } catch (error) {
@@ -92,7 +93,7 @@ const categoryPost = async (req = request, res = response) => {
       success: false,
       msg: "Unexpected error postting Category",
       details: error.toString(),
-      product: {},
+      category: {},
     });
   }
 };
@@ -109,14 +110,14 @@ const categoryDelete = async (req = request, res = response) => {
         success: success,
         msg: "Unexpected error deletting Category",
         details: response,
-        product: {},
+        category: {},
       });
     } else {
       res.json({
         success: success,
         msg: "Delete Category success!",
         details: "",
-        products: response,
+        category: response,
       });
     }
   } catch (error) {
@@ -124,7 +125,7 @@ const categoryDelete = async (req = request, res = response) => {
       success: false,
       msg: "Unexpected error deletting Category",
       details: error.toString(),
-      product: {},
+      category: {},
     });
   }
 };
