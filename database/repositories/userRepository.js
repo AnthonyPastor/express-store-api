@@ -8,11 +8,13 @@ const bcryptjs = require("bcryptjs");
 class userRepository {
   async GetUsers(limit, page) {
     try {
-      const users = await User.find({ deleted: false })
-        .skip(Number(limit) * (Number(page) - 1))
-        .limit(Number(limit));
+      const [total, users] = await Promise.all([
+        User.countDocuments({ deleted: false }),
+        User.find({ deleted: false })
+          .skip(Number(limit) * (Number(page) - 1))
+          .limit(Number(limit)),
+      ]);
 
-      const total = await User.countDocuments({ deleted: false });
       return { success: true, response: { total, users } };
     } catch (error) {
       return {

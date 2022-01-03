@@ -1,4 +1,4 @@
-const Category = require("../../models/category");
+const { Category } = require("../../models");
 
 //The goal of this class is to interact with the DB. It should inherit from an Interface, so when you want to get access yo the database,
 //you must use the interface methods instead of this class
@@ -8,11 +8,14 @@ const Category = require("../../models/category");
 class categoryRepository {
   async GetCategories(limit, page) {
     try {
-      const categories = await Category.find({ deleted: false })
-        .skip(Number(limit) * (Number(page) - 1))
-        .limit(Number(limit));
+      const [total, categories] = await Promise.all([
+        Category.countDocuments({ deleted: false }),
+        Category.find({ deleted: false })
+          .populate("user", "name")
+          .skip(Number(limit) * (Number(page) - 1))
+          .limit(Number(limit)),
+      ]);
 
-      const total = await Category.countDocuments({ deleted: false });
       return { success: true, response: { total, categories } };
     } catch (error) {
       return {
