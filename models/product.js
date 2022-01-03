@@ -13,7 +13,9 @@ const productSchema = Schema({
     type: String,
   },
   category: {
-    type: String,
+    type: Schema.Types.ObjectId,
+    ref: "Category",
+    required: true,
   },
   deleted: {
     type: Boolean,
@@ -22,6 +24,11 @@ const productSchema = Schema({
   img: {
     type: Boolean,
     default: false,
+  },
+  user: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
   },
 });
 
