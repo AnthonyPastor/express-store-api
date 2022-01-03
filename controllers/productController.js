@@ -70,6 +70,7 @@ const productGetById = async (req = request, res = response) => {
 const productPost = async (req = request, res = response) => {
   try {
     const body = req.body;
+    body.user = req.user._id;
     const { success, response } = await new productRepository().PostProduct(
       body
     );

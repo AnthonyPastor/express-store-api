@@ -11,6 +11,8 @@ class productRepository {
       const [total, products] = await Promise.all([
         Product.countDocuments({ deleted: false }),
         Product.find({ deleted: false })
+          .populate("user", "name")
+          .populate("category", "name")
           .skip(Number(limit) * (Number(page) - 1))
           .limit(Number(limit)),
       ]);
