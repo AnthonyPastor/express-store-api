@@ -11,7 +11,7 @@ const {
   categoryAlreadyExist,
 } = require("../helpers/db-validators");
 
-const { validateFields, validateJWT } = require("../middlewares");
+const { validateFields, validateJWT, isAdminRole } = require("../middlewares");
 
 const categoryRouter = Router();
 
@@ -42,6 +42,7 @@ categoryRouter.delete(
   "/:id",
   [
     validateJWT,
+    isAdminRole,
     check("id", "ID is invalid").isMongoId(),
     check("id").custom(existCategoryId),
     validateFields,
