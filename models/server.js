@@ -14,6 +14,7 @@ class Server {
       orders: "/api/order",
       products: "/api/product",
       users: "/api/user",
+      search: "/api/search",
     };
 
     // BD Connection
@@ -43,10 +44,11 @@ class Server {
 
   routes() {
     this.app.use(this.paths.auth, require("../routes/authRoutes"));
-    this.app.use(this.paths.users, require("../routes/userRoutes"));
-    this.app.use(this.paths.products, require("../routes/productRoutes"));
-    this.app.use(this.paths.orders, require("../routes/orderRoutes"));
     this.app.use(this.paths.categories, require("../routes/categoryRoutes"));
+    this.app.use(this.paths.orders, require("../routes/orderRoutes"));
+    this.app.use(this.paths.products, require("../routes/productRoutes"));
+    this.app.use(this.paths.search, require("../routes/searchRoutes"));
+    this.app.use(this.paths.users, require("../routes/userRoutes"));
   }
   start() {
     this.app.listen(this.port, () => {
