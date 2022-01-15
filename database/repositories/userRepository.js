@@ -71,7 +71,24 @@ class userRepository {
 
       return {
         success: true,
-        response: "Success",
+        response: "Delete successful!",
+      };
+    } catch (error) {
+      return {
+        success: false,
+        response: error.toString(),
+      };
+    }
+  }
+
+  async UpdateUser(id, data) {
+    try {
+      const user = await User.findByIdAndUpdate(id, data, { new: true });
+      await user.save();
+
+      return {
+        success: true,
+        response: user,
       };
     } catch (error) {
       return {

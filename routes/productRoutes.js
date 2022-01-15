@@ -5,6 +5,7 @@ const {
   productGetById,
   productPost,
   productDelete,
+  productPut,
 } = require("../controllers/productController");
 const { existProductId, existCategoryId } = require("../helpers/db-validators");
 const { validateJWT, validateFields } = require("../middlewares");
@@ -50,4 +51,21 @@ productRouter.delete(
   productDelete
 );
 
+productRouter.put(
+  "/:id",
+  [
+    validateJWT,
+    check("id", "ID is invalid").isMongoId(),
+    check("id").custom(existProductId),
+    check("name", "Name is required").not().isEmpty(),
+    check("price", "Price is required").not().isEmpty(),
+    check("price", "Price must be numeric").isNumeric(),
+    check("description", "Descripcion is required").not().isEmpty(),
+    check("category", "Category is required").not().isEmpty(),
+    check("category", "Category is invalid").isMongoId(),
+    check("category").custom(existCategoryId),
+    validateFields,
+  ],
+  productPut
+);
 module.exports = productRouter;
