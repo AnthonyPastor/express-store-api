@@ -42,6 +42,16 @@ const isValidRole = async (role = "") => {
   }
 };
 
+const allowedCollections = async (collection = "", collections = []) => {
+  const included = collections.includes(collection);
+  if (!included) {
+    throw new Error(
+      `Collection ${collection} is not allowed. Try ${collections}`
+    );
+  }
+  return true;
+};
+
 module.exports = {
   mailExist,
   existUserId,
@@ -49,4 +59,5 @@ module.exports = {
   isValidRole,
   existCategoryId,
   categoryAlreadyExist,
+  allowedCollections,
 };
