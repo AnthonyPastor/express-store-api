@@ -9,7 +9,6 @@ const updateImage = async (req = request, res = response) => {
     const { id, collection } = req.params;
     switch (collection) {
       case "users":
-        console.log("lol");
         model = await User.findById(id);
         if (!model) {
           return res.status(400).json({

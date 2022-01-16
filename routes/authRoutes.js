@@ -28,6 +28,4 @@ authRouter.post(
   googleSignIn
 );
 
-//userRouter.get("/:id", userGetById);
-
 module.exports = authRouter;
