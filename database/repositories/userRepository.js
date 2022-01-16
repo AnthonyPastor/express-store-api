@@ -83,7 +83,9 @@ class userRepository {
 
   async UpdateUser(id, data) {
     try {
-      const user = await User.findByIdAndUpdate(id, data, { new: true });
+      const { img, password, ...otherData } = data;
+      const user = await User.findByIdAndUpdate(id, otherData, { new: true });
+
       await user.save();
 
       return {
