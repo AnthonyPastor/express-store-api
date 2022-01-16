@@ -99,7 +99,6 @@ const userGetById = async (req = request, res = response) => {
 const userDelete = async (req = request, res = response) => {
   try {
     const { id } = req.params;
-    const { uid, user } = req;
     const { success, response } = await new userRepository().DeleteUser(id);
     if (!success) {
       res.json({
@@ -111,7 +110,7 @@ const userDelete = async (req = request, res = response) => {
     } else {
       res.json({
         success: success,
-        msg: "Delete Products success!",
+        msg: "Delete User success!",
         details: "",
         products: response,
       });
@@ -125,9 +124,44 @@ const userDelete = async (req = request, res = response) => {
     });
   }
 };
+
+const userPut = async (req = request, res = response) => {
+  try {
+    const { id } = req.params;
+    const { password, ...data } = req.body;
+    const { success, response } = await new userRepository().UpdateUser(
+      id,
+      data
+    );
+    if (!success) {
+      res.json({
+        success: success,
+        msg: "Unexpected error updatting User",
+        details: response,
+        product: {},
+      });
+    } else {
+      res.json({
+        success: success,
+        msg: "Update User success!",
+        details: "",
+        products: response,
+      });
+    }
+  } catch (error) {
+    res.json({
+      success: false,
+      msg: "Unexpected error updatting User",
+      details: error.toString(),
+      product: {},
+    });
+  }
+};
+
 module.exports = {
   usersGet,
   userPost,
   userGetById,
   userDelete,
+  userPut,
 };

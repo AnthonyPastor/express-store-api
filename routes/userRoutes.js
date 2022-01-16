@@ -10,6 +10,7 @@ const {
   userPost,
   userGetById,
   userDelete,
+  userPut,
 } = require("../controllers/userController");
 const {
   validateFields,
@@ -59,6 +60,25 @@ userRouter.delete(
     validateFields,
   ],
   userDelete
+);
+
+userRouter.put(
+  "/:id",
+  [
+    validateJWT,
+    check("id", "ID is invalid").isMongoId(),
+    check("id").custom(existUserId),
+    check("email", "Email is invalid").isEmail(),
+    check("password", "Password is required").not().isEmpty(),
+    check("password", "Password must have more of 6 characters").isLength({
+      min: 6,
+    }),
+    check("name", "Name is required").not().isEmpty(),
+    check("email").custom(mailExist),
+    check("role").custom(isValidRole),
+    validateFields, //Custom Middleware
+  ],
+  userPut
 );
 
 module.exports = userRouter;

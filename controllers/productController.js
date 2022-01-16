@@ -117,7 +117,7 @@ const productDelete = async (req = request, res = response) => {
     } else {
       res.json({
         success: success,
-        msg: "Delete Products success!",
+        msg: "Delete Product success!",
         details: "",
         products: response,
       });
@@ -132,9 +132,44 @@ const productDelete = async (req = request, res = response) => {
   }
 };
 
+const productPut = async (req = request, res = response) => {
+  try {
+    const { id } = req.params;
+    const { deleted, ...data } = req.body;
+    const { success, response } = await new productRepository().PutProduct(
+      id,
+      data
+    );
+
+    if (!success) {
+      res.json({
+        success: success,
+        msg: "Unexpected error updatting Product",
+        details: response,
+        product: {},
+      });
+    } else {
+      res.json({
+        success: success,
+        msg: "Update Product success!",
+        details: "",
+        products: response,
+      });
+    }
+  } catch (error) {
+    res.json({
+      success: false,
+      msg: "Unexpected error updatting Product",
+      details: error.toString(),
+      product: {},
+    });
+  }
+};
+
 module.exports = {
   productsGet,
   productGetById,
   productPost,
   productDelete,
+  productPut,
 };

@@ -7,7 +7,6 @@ const User = require("../models/user");
 const login = async (req, res = response) => {
   const { email, password } = req.body;
   try {
-    console.log(",,mm");
     //Verify if mail exist
     const user = await User.findOne({ email });
     if (!user) {

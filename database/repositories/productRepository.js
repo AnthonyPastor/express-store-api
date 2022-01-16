@@ -76,6 +76,22 @@ class productRepository {
       };
     }
   }
+  async PutProduct(id, data) {
+    try {
+      const product = await Product.findByIdAndUpdate(id, data, { new: true });
+      await product.save();
+
+      return {
+        success: true,
+        response: product,
+      };
+    } catch (error) {
+      return {
+        success: false,
+        response: error.toString(),
+      };
+    }
+  }
 }
 
 module.exports = productRepository;
